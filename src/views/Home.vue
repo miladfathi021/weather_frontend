@@ -51,15 +51,11 @@ export default Vue.extend({
     };
   },
 
-  beforeCreate() {
-    // this.$store.dispatch("current/setWeather").then(() => {
-    //   this.$store.dispatch("current/getAll");
-    // });
-  },
-
   created() {
-    this.$store.dispatch("current/getAll");
-    // this.intervalId = setInterval(this.setWeather, 2 * 60 * 1000);
+    this.$store.dispatch("current/setWeather").then(() => {
+      this.$store.dispatch("current/getAll");
+    });
+    this.intervalId = setInterval(this.setWeather, 2 * 60 * 1000);
   },
 
   computed: {
@@ -90,7 +86,9 @@ export default Vue.extend({
       });
     },
     setWeather() {
-      this.$store.dispatch("current/setWeather");
+      this.$store.dispatch("current/setWeather").then(() => {
+        this.$store.dispatch("current/getAll");
+      });
     },
   },
 
